@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
+	public Vector2 bounds;
 
 	private List<Vector2> newVertices;
 	private EdgeCollider2D edgeCollider;
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
 		float camDistance = Vector3.Distance(this.transform.position, Camera.main.transform.position);
 		Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
 		Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
-		
+        bounds = new Vector2(bottomLeft.x, topRight.y);
 		//Set these to the new vertices for the Edge Collider
 		newVertices.Add (new Vector2(bottomLeft.x, bottomLeft.y)); // Sets the start point
 		newVertices.Add (new Vector2(bottomLeft.x, topRight.y)); // Creates the Top Side
