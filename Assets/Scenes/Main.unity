@@ -135,6 +135,9 @@ GameObject:
   - component: {fileID: 233751774}
   - component: {fileID: 233751773}
   - component: {fileID: 233751775}
+  - component: {fileID: 233751778}
+  - component: {fileID: 233751777}
+  - component: {fileID: 233751776}
   m_Layer: 0
   m_Name: Pad
   m_TagString: Untagged
@@ -233,6 +236,47 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.98, y: 0.08}
   m_EdgeRadius: 0.005
+--- !u!114 &233751776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233751772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754f36ab2638441b78dc15f61ae5b2f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 0
+  speed: 5
+--- !u!114 &233751777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233751772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec04c4a9b787400e93b36a5e1719064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftArrow: 276
+  rightArrow: 275
+--- !u!114 &233751778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233751772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
