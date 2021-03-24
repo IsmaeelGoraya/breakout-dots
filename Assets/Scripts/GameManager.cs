@@ -3,18 +3,32 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	public static GameManager Instance;
+
+
 	private List<Vector2> newVertices;
 	private EdgeCollider2D edgeCollider;
 
-    // Start is called before the first frame update
     private void Awake()
+    {
+		if (Instance != null && Instance != this)
+		{
+			Destroy(gameObject);
+			return;
+		}
+
+		Instance = this;
+	}
+
+    private void Start()
     {
 		newVertices = new List<Vector2>();
 		edgeCollider = this.GetComponent<EdgeCollider2D>();
         CreateBoundryEdges();
+        
     }
 
-	private void CreateBoundryEdges()
+    private void CreateBoundryEdges()
 	{	
 		//Get the boundaries of the camera
 		float camDistance = Vector3.Distance(this.transform.position, Camera.main.transform.position);
