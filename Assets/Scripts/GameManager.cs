@@ -37,11 +37,10 @@ public class GameManager : MonoBehaviour
 		Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
         bounds = new Vector2(bottomLeft.x, topRight.y);
 		//Set these to the new vertices for the Edge Collider
-		newVertices.Add (new Vector2(bottomLeft.x, bottomLeft.y)); // Sets the start point
-		newVertices.Add (new Vector2(bottomLeft.x, topRight.y)); // Creates the Top Side
-		newVertices.Add (new Vector2(topRight.x, topRight.y)); // Creates the Right Side
-		newVertices.Add (new Vector2(topRight.x, bottomLeft.y)); // Creates the Bottom Side
-		newVertices.Add (new Vector2(bottomLeft.x, bottomLeft.y)); //Creates the Left Side
+		newVertices.Add (new Vector2(bottomLeft.x, bottomLeft.y));	// bottom left
+		newVertices.Add (new Vector2(bottomLeft.x, topRight.y));	// top left
+		newVertices.Add (new Vector2(topRight.x, topRight.y));		// top right
+		newVertices.Add (new Vector2(topRight.x, bottomLeft.y));	// bottom right
 		
 		//Update the edge collider
 		edgeCollider.points = newVertices.ToArray();
