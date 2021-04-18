@@ -7,9 +7,10 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using SpriteRenderer = Unity.U2D.Entities.SpriteRenderer;
 using Random = UnityEngine.Random;
+using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
-public class BrickSpawnerSystem : ComponentSystem
+public class BrickSpawnerSystem : JobComponentSystem
 {
     private List<Entity> createdBricks;
     private float2 startSpawnPosition;
@@ -34,8 +35,6 @@ public class BrickSpawnerSystem : ComponentSystem
 
     }
 
-    protected override void OnUpdate(){
-    }
 
     private void CreateBrickEntities(){
 
@@ -94,5 +93,10 @@ public class BrickSpawnerSystem : ComponentSystem
         startSpawnPosition.y -= 1.0f;
         startSpawnPosition.x += ((brickSize.x * currentLevel.Columns) / 2) * -1;
         startSpawnPosition.x +=  brickSpacing * currentLevel.Columns;
+    }
+
+    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    {
+        return default;
     }
 }
