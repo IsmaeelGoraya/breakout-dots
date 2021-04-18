@@ -1,14 +1,15 @@
-using System.Collections.Generic;
 using DataModels;
 using Factories;
+using System.Collections.Generic;
+using UnityEngine;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
+using SpriteRenderer = Unity.U2D.Entities.SpriteRenderer;
 using Random = UnityEngine.Random;
 
-public class BrickSpawnerSystem : JobComponentSystem
+[AlwaysSynchronizeSystem]
+public class BrickSpawnerSystem : ComponentSystem
 {
     private List<Entity> createdBricks;
     private float2 startSpawnPosition;
@@ -17,6 +18,7 @@ public class BrickSpawnerSystem : JobComponentSystem
     private Level currentLevel;
     private float2 brickSize;
     private List<Brick> currentLevelTotalBricks;
+
 
     protected override void OnCreate(){
 
@@ -29,18 +31,19 @@ public class BrickSpawnerSystem : JobComponentSystem
     protected override void OnStartRunning(){
 
         CreateNewLevel(currentLevel);
+
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps){
-
-        return default;
+    protected override void OnUpdate(){
     }
 
     private void CreateBrickEntities(){
 
+        BrickEntityPrefabHolder brickEntityPrefabHolder = GetSingleton<BrickEntityPrefabHolder>();
+
         for (int i = 0; i < currentLevelTotalBricks.Count; i++)
         {
-            Entity spawnedEntity = EntityManager.Instantiate(BrickEntityPrefabHolder.brickPrefabEntity);
+            Entity spawnedEntity = EntityManager.Instantiate(brickEntityPrefabHolder.brickPrefabEntity);
             createdBricks.Add(spawnedEntity);
         }
     }
@@ -49,26 +52,27 @@ public class BrickSpawnerSystem : JobComponentSystem
 
         CalculateStartBrickSpawnPosition();
 
+
         for (int i = 0; i < currentLevel.Rows; i++)
         {
             for (int j = 0; j < currentLevel.Columns; j++)
             {
                 Entity brickEntity = createdBricks[i + (j + ((currentLevel.Columns - 1) * i))];
-                //BrickData brickEntityData = EntityManager.GetComponentData<BrickData>(brickEntity);
-                //SpriteRenderer brickSpriteRenderer = EntityManager.GetComponentData<SpriteRenderer>(brickEntity);
+                SpriteRenderer brickSpriteRenderer = EntityManager.GetComponentData<SpriteRenderer>(brickEntity);
+                Translation brickTranslation = EntityManager.GetComponentData<Translation>(brickEntity);
 
                 nextSpwanPosition = startSpawnPosition + new float2(j * (brickSize.x + brickSpacing), -i * (brickSize.y + brickSpacing));
 
-                EntityManager.SetComponentData(brickEntity, new Translation
-                {
-                    Value = new float3(nextSpwanPosition.x, nextSpwanPosition.y, 0)
-                });
+                brickTranslation.Value = new float3(nextSpwanPosition.x, nextSpwanPosition.y, 0);
+                float4 brickColor = new float4(currentLevelTotalBricks[i + (j + ((currentLevel.Columns - 1) * i))].Color.r,
+                                                currentLevelTotalBricks[i + (j + ((currentLevel.Columns - 1) * i))].Color.g,
+                                                currentLevelTotalBricks[i + (j + ((currentLevel.Columns - 1) * i))].Color.b,
+                                                1.0f);
+                brickSpriteRenderer.Color = brickColor;
 
-                //brickEntityData.brickModel = currentLevelTotalBricks[i + (j + ((currentLevel.Columns - 1) * i))];
+                EntityManager.SetComponentData(brickEntity, brickTranslation);
+                EntityManager.SetComponentData(brickEntity, brickSpriteRenderer);
 
-                //brickSpriteRenderer.Color = new float4(brickEntityData.brickModel.Color.r, brickEntityData.brickModel.Color.g, brickEntityData.brickModel.Color.b, 1.0f);
-
-                //EntityManager.SetComponentData(brickEntity, brickSpriteRenderer);
             }
         }
     }
