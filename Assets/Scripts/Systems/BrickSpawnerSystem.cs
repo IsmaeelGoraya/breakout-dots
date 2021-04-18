@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
+[UpdateBefore(typeof(SpriteRenderer))]
 public class BrickSpawnerSystem : JobComponentSystem
 {
     private List<Entity> createdBricks;
